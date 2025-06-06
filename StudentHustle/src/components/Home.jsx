@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Home() {
   return (
     <div className="home">
@@ -56,7 +58,11 @@ function Home() {
           </div>
         </div>
       </div>
-      <button className="home-button">Explore Courses</button>
+      <button className="home-button">
+        <NavLink to="/courses" style={{ textDecoration: 'none', color: 'white' }}>
+        Explore Courses
+        </NavLink>
+        </button>
     </div>
   );
 }
