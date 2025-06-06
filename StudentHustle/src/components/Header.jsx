@@ -1,8 +1,27 @@
+import { NavLink } from "react-router-dom";
 import "../style.css";
+
+
+ const navLinkStyles = ({isActive}) => {
+        return {
+            fontWeight: isActive ? 'bold' : 'normal',
+            textDecoration: 'none',
+            color: isActive ? 'blue' : 'black',
+    }
+    }
+
 function Header() {
   return (
     <div className="header">
-      <div className="hdleft">StudentHustle</div>
+      <div className="hdleft">
+        <NavLink to="/" style={{
+        fontWeight: 'bold',
+        textDecoration: 'none',
+        color: 'blue' // Always black, never blue
+  }}>
+          StudentHustle
+        </NavLink>
+      </div>
       <div className="hdright">
         <div
           className="header-courses"
@@ -10,7 +29,9 @@ function Header() {
             console.log("Courses Clicked");
           }}
         >
+        <NavLink to="/courses" style={navLinkStyles}>
           Courses
+        </NavLink>
         </div>
         <div
           className="header-home"
@@ -18,7 +39,9 @@ function Header() {
             console.log("Home Clicked");
           }}
         >
+          <NavLink to="/" style={navLinkStyles}>
           Home
+          </NavLink>
         </div>
       </div>
     </div>
