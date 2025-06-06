@@ -1,38 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../auth.css";
 
-// Utility functions for localStorage
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users") || "[]");
-}
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users));
-}
-
-function SignUp() {
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+const SignUp = ({ setUser }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const users = getUsers();
-    const exists = users.find((u) => u.email === email);
-    if (exists) {
-      setError("User already exists.");
-      setSuccess("");
-      return;
-    }
-    users.push({ name, surname, email, password });
-    saveUsers(users);
-    setSuccess("Account created! You can now sign in.");
-    setError("");
-    setTimeout(() => navigate("/signin"), 1500); // Redirect to SignIn page
+    const username = `${formData.name} ${formData.surname}`.toLowerCase(); // Generate username
+    const userData = { ...formData, username };
+    setUser(userData); // Set the user information in state
+    localStorage.setItem("user", JSON.stringify(userData)); // Save user data to localStorage
+    navigate("/"); // Redirect to the home page
   };
 
   return (
@@ -40,42 +30,39 @@ function SignUp() {
       <h2>Sign Up</h2>
       <input
         type="text"
+        name="name"
         placeholder="Name"
-        value={name}
+        value={formData.name}
         required
-        onChange={(e) => setName(e.target.value)}
+        onChange={handleInputChange}
       />
       <input
         type="text"
+        name="surname"
         placeholder="Surname"
-        value={surname}
+        value={formData.surname}
         required
-        onChange={(e) => setSurname(e.target.value)}
+        onChange={handleInputChange}
       />
       <input
         type="email"
+        name="email"
         placeholder="Email"
-        value={email}
+        value={formData.email}
         required
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleInputChange}
       />
       <input
         type="password"
+        name="password"
         placeholder="Password"
-        value={password}
+        value={formData.password}
         required
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleInputChange}
       />
       <button type="submit">Sign Up</button>
-      {error && <div className="error">{error}</div>}
-      {success && <div className="success">{success}</div>}
-      <div className="redirect-link">
-        <button type="button" onClick={() => navigate("/signin")}>
-          Already have an account? Sign In
-        </button>
-      </div>
     </form>
   );
-}
+};
 
 export default SignUp;

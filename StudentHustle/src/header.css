@@ -4,48 +4,106 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
+
+:root {
+  --primary-color: #1e90ff; /* Soft blue */
+  --secondary-color: #1c1c1c; /* Dark background */
+  --accent-color: #50fa7b; /* Soft green for accents */
+  --text-color: #f8f8f2; /* Light text */
+  --muted-text-color: #a9a9a9; /* Muted text */
+  --hover-bg-color: #333333; /* Dark hover background */
+  --header-bg-color: #2a2a2a; /* Slightly lighter dark background for header */
+  --header-shadow-color: rgba(0, 0, 0, 0.5); /* Shadow for header */
+}
+
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--secondary-color);
+  color: var(--text-color);
 }
+
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 1px solid black;
-  background-color: aliceblue;
-  padding: 10px 10px 0px 10px;
+  align-items: center; /* Ensures vertical centering for all elements */
+  border-bottom: 2px solid var(--hover-bg-color);
+  background-color: var(--header-bg-color);
+  padding: 15px 20px;
+  box-shadow: 0 8px 15px var(--header-shadow-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
+
 .hdright {
   display: flex;
-  justify-content: space-between;
-  font-size: 25px;
-  margin-right: 10px;
-  gap: 30px;
+  gap: 20px;
+  align-items: center; /* Ensures vertical centering for buttons */
+  font-size: 1.2rem;
+  color: var(--muted-text-color);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
+
+.hdright a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.hdright a:hover {
+  color: var(--primary-color);
+}
+
 .hdleft {
-  font-size: 40px;
-  color: rgb(51, 255, 0);
+  font-size: 2rem;
+  color: var(--accent-color);
+  font-weight: bold;
   cursor: pointer;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
-.header-courses {
-  border-radius: 15px;
-  padding: 10px;
-  cursor: pointer;
-}
-.header-courses:hover {
-  background-color: rgba(255, 251, 37, 0.5);
-}
-.header-home:hover {
-  background-color: rgba(255, 251, 37, 0.5);
-}
-.header-home {
-  padding: 10px;
-  border-radius: 15px;
-  cursor: pointer;
-}
+
+.header-courses,
+.header-home,
 .header-signin {
-  padding: 10px;
-  border-radius: 15px;
+  padding: 10px 15px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center; /* Ensures vertical centering for buttons */
+}
+
+.header-courses:hover,
+.header-home:hover,
+.header-signin:hover {
+  background-color: var(--hover-bg-color);
+  transform: scale(1.05);
+}
+
+.header-signin {
+  display: flex;
+  align-items: center; /* Ensures vertical centering for the "Sign Up" button */
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.header-signin:hover {
+  background-color: var(--hover-bg-color);
+  transform: scale(1.05);
+}
+
+.profile-icon {
+  font-size: 1.8rem; /* Adjust the size of the icon */
+  color: var(--text-color); /* Use the text color */
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+  color: var(--primary-color); /* Change color on hover */
 }

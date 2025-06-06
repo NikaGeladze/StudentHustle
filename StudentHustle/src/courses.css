@@ -1,57 +1,191 @@
+:root {
+  --primary-color: #1e90ff; /* Soft blue */
+  --secondary-color: #1c1c1c; /* Dark background */
+  --accent-color: #50fa7b; /* Soft green for accents */
+  --text-color: #f8f8f2; /* Light text */
+  --muted-text-color: #a9a9a9; /* Muted text */
+  --card-bg-color: #2a2a2a; /* Dark card background */
+  --border-color: #444444; /* Dark gray border */
+  --hover-bg-color: #333333; /* Dark hover background */
+}
+
+body {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  font-family: "Roboto", sans-serif;
+}
+
 .maincontainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 100px;
-  gap: 50px;
+  margin-top: 50px;
+  gap: 30px;
+  padding: 20px;
+}
+
+.maincontainer h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+  text-align: center;
 }
 
 .coursescontainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Ensure 3 courses per row */
   gap: 20px;
-  width: 80%;
+  width: 90%;
 }
 
 .course {
-  background-color: rgb(280, 243, 207);
+  background-color: var(--card-bg-color);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  padding: 20px 20px 10px 20px;
-  gap: 20px;
-  border: 3px solid rgb(36, 193, 255);
-  height: 100%;
+  padding: 20px;
+  gap: 15px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.course:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
 .course-add {
-  padding: 10px;
-  font-size: 1.5rem;
-  width: 300;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: 200px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+.course-add:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
 .course-title {
-  font-size: 2rem;
-  border-bottom: 1px solid black;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 5px;
 }
+
 .course-description {
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1rem;
+  color: var(--muted-text-color);
+  line-height: 1.5;
 }
+
 .course-price {
-  font-size: 1.5rem;
-  color: rgb(136, 122, 0);
-}
-.course-author {
-  font-size: 1.5rem;
-  color: #2c8b00;
+  font-size: 1.2rem;
+  color: var(--accent-color);
   font-weight: bold;
 }
+
+.course-author {
+  font-size: 1rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
 .course-bottom {
   margin-top: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--card-bg-color);
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content h2 {
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.modal-content label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--text-color);
+}
+
+.modal-content input,
+.modal-content textarea {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.modal-content textarea {
+  height: 100px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-buttons button:first-child {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.modal-buttons button:first-child:hover {
+  background-color: #0056b3;
+}
+
+.modal-buttons button:last-child {
+  background-color: var(--hover-bg-color);
+  color: #fff;
+}
+
+.modal-buttons button:last-child:hover {
+  background-color: #444;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
 }
