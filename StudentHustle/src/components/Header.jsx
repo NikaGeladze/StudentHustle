@@ -35,6 +35,11 @@ function Header() {
             Courses
           </NavLink>
         </div>
+        <div>
+          <NavLink to="/signup" style={navLinkStyles}>
+            Sign Up
+          </NavLink>
+        </div>
         <div
           className="header-home"
           onClick={() => {
@@ -44,14 +49,6 @@ function Header() {
           <NavLink to="/" style={navLinkStyles}>
             Home
           </NavLink>
-        </div>
-        <div
-          className="header-signin"
-          onClick={() => {
-            console.log("Home Clicked");
-          }}
-        >
-          Sign in
         </div>
       </div>
     </div>
