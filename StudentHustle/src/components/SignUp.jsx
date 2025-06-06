@@ -20,8 +20,24 @@ const SignUp = ({ setUser }) => {
     e.preventDefault();
     const username = `${formData.name} ${formData.surname}`.toLowerCase(); // Generate username
     const userData = { ...formData, username };
+
+    // Retrieve existing users from localStorage
+    const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const userExists = existingUsers.some(
+      (user) => user.email === formData.email
+    );
+
+    if (userExists) {
+      alert("An account with this email already exists.");
+      return;
+    }
+
+    // Save the new user to localStorage
+    const updatedUsers = [...existingUsers, userData];
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
     setUser(userData); // Set the user information in state
-    localStorage.setItem("user", JSON.stringify(userData)); // Save user data to localStorage
+    localStorage.setItem("user", JSON.stringify(userData)); // Save logged-in user data to localStorage
     navigate("/"); // Redirect to the home page
   };
 
@@ -61,6 +77,22 @@ const SignUp = ({ setUser }) => {
         onChange={handleInputChange}
       />
       <button type="submit">Sign Up</button>
+      <div style={{ marginTop: "1rem", textAlign: "center" }}>
+        <button
+          type="button"
+          onClick={() => navigate("/signin")}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#6366f1",
+            textDecoration: "underline",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
+          Already have an account? Sign In
+        </button>
+      </div>
     </form>
   );
 };

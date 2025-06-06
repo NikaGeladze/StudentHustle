@@ -44,15 +44,17 @@ function Header({ user }) {
         {user ? (
           <div className="header-profile" onClick={handleProfileClick}>
             <img
-              src="./images/profile.jpg" // Path to the profile photo
+              src="/Images/profile.png" // Path to the profile photo
               alt="Profile"
               className="profile-photo"
+              width={30}
+              style={{ cursor: "pointer", marginTop: "2px" }}
             />
           </div>
         ) : (
-          <div>
-            <NavLink to="/signup" style={navLinkStyles}>
-              Sign Up
+          <div className="auth-links">
+            <NavLink to="/signin" style={navLinkStyles}>
+              Sign In
             </NavLink>
           </div>
         )}

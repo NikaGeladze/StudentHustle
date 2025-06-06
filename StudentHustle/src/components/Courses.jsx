@@ -31,7 +31,6 @@ const Courses = ({ user }) => {
     title: "",
     description: "",
     price: "",
-    author: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
@@ -61,22 +60,22 @@ const Courses = ({ user }) => {
       setError("Price must be a positive number.");
       return;
     }
-    if (newCourse.author.trim() === "") {
-      setError("Author name cannot be empty.");
-      return;
-    }
     const updatedCourses = [
       ...courses,
-      { ...newCourse, price: `$${newCourse.price}` },
+      {
+        ...newCourse,
+        price: `$${newCourse.price}`,
+        author: `${user.name} ${user.surname}`,
+      },
     ];
     setCourses(updatedCourses);
-    setNewCourse({ title: "", description: "", price: "", author: "" });
+    setNewCourse({ title: "", description: "", price: "" });
     setIsModalOpen(false);
     setError("");
   };
 
   const handleCancel = () => {
-    setNewCourse({ title: "", description: "", price: "", author: "" });
+    setNewCourse({ title: "", description: "", price: "" });
     setIsModalOpen(false);
     setError("");
   };
@@ -133,15 +132,6 @@ const Courses = ({ user }) => {
                 type="number"
                 name="price"
                 value={newCourse.price}
-                onChange={handleInputChange}
-              />
-            </label>
-            <label>
-              Author Name:
-              <input
-                type="text"
-                name="author"
-                value={newCourse.author}
                 onChange={handleInputChange}
               />
             </label>

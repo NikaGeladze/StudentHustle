@@ -1,33 +1,34 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../auth.css";
 
-// Utility functions for localStorage
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users") || "[]");
-}
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users));
-}
-
-function SignIn({ setUser }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const SignIn = ({ setUser }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const users = getUsers();
-    const user = users.find(
-      (u) => u.email === email && u.password === password
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const matchedUser = users.find(
+      (user) =>
+        user.email === formData.email && user.password === formData.password
     );
-    if (!user) {
-      setError("Invalid email or password.");
-      return;
+
+    if (matchedUser) {
+      setUser(matchedUser);
+      localStorage.setItem("user", JSON.stringify(matchedUser)); // Save logged-in user data
+      navigate("/");
+    } else {
+      alert("Invalid credentials");
     }
-    setUser(user); // Set the logged-in user
-    navigate("/"); // Redirect to the home page
   };
 
   return (
@@ -35,27 +36,39 @@ function SignIn({ setUser }) {
       <h2>Sign In</h2>
       <input
         type="email"
+        name="email"
         placeholder="Email"
-        value={email}
+        value={formData.email}
         required
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleInputChange}
       />
       <input
         type="password"
+        name="password"
         placeholder="Password"
-        value={password}
+        value={formData.password}
         required
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleInputChange}
       />
       <button type="submit">Sign In</button>
-      {error && <div className="error">{error}</div>}
-      <div className="redirect-link">
-        <button type="button" onClick={() => navigate("/signup")}>
+      <div style={{ marginTop: "1rem", textAlign: "center" }}>
+        <button
+          type="button"
+          onClick={() => navigate("/signup")}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#6366f1",
+            textDecoration: "underline",
+            cursor: "pointer",
+            fontSize: "1rem",
+          }}
+        >
           Don't have an account? Sign Up
         </button>
       </div>
     </form>
   );
-}
+};
 
 export default SignIn;
