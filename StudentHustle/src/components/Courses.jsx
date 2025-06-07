@@ -115,16 +115,12 @@ const Courses = ({ user }) => {
       setError("Course name must be more than 1 character.")
       return
     }
-    if (newCourse.price <= 0) {
-      setError("Price must be a positive number.")
+    if (Number(newCourse.price) < 0) {
+      setError("Price cannot be negative.")
       return
     }
     if (!newCourse.duration) {
       setError("Please specify course duration.")
-      return
-    }
-    if (!newCourse.introVideo) {
-      setError("Please upload an intro video for your course.")
       return
     }
 
@@ -352,6 +348,11 @@ const Courses = ({ user }) => {
                     min="0"
                     step="0.01"
                   />
+                  {String(newCourse.price).trim() === "0" && (
+                    <div style={{ color: "#10b981", marginTop: "0.5rem", fontWeight: 500 }}>
+                      This course is <strong>Free</strong>
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -456,7 +457,9 @@ const Courses = ({ user }) => {
               <div className="course-card-footer">
                 <div className="course-price">
                   <DollarSign size={18} />
-                  <span className="price-amount">{course.price}</span>
+                  <span className="price-amount">
+                    {Number(course.price.replace("$", "")) === 0 ? "Free" : course.price}
+                  </span>
                 </div>
                 <button className="course-view-btn">View Course</button>
               </div>
