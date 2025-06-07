@@ -26,7 +26,7 @@ function Home() {
         <div class="posts-grid">
           <div class="post-card">
             <h3>
-              <a href="/posts/1" data-discover="true">
+              <a data-discover="true">
                 Connecting students for smarter hustles.
               </a>
             </h3>
@@ -37,7 +37,7 @@ function Home() {
           </div>
           <div class="post-card">
             <h3>
-              <a href="/posts/2" data-discover="true">
+              <a data-discover="true">
                 Student marketplace for everything you need.
               </a>
             </h3>
@@ -48,9 +48,7 @@ function Home() {
           </div>
           <div class="post-card">
             <h3>
-              <a href="/posts/3" data-discover="true">
-                More just a platform, it's a movement.
-              </a>
+              <a data-discover="true">More just a platform, it's a movement.</a>
             </h3>
             <p class="post-preview">
               At its core, StudentHustle is more than just a platform — it's a
