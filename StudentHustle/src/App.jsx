@@ -6,6 +6,7 @@ import Courses from "./components/Courses.jsx";
 import SignIn from "./components/SignIn.jsx";
 import SignUp from "./components/SignUp.jsx";
 import Profile from "./components/Profile.jsx";
+import CourseDetails from "./components/CourseDetails.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,9 +34,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<Courses user={user} />} />
+        <Route
+          path="/courses/:courseId"
+          element={<CourseDetails user={user} />}
+        />{" "}
         <Route path="/signin" element={<SignIn setUser={setUser} />} />
         <Route path="/signup" element={<SignUp setUser={setUser} />} />
-        <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
+        <Route
+          path="/profile"
+          element={<Profile user={user} setUser={setUser} />}
+        />
       </Routes>
     </>
   );

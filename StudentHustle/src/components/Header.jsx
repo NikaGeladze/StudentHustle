@@ -5,7 +5,7 @@ const navLinkStyles = ({ isActive }) => {
   return {
     fontWeight: isActive ? "bold" : "normal",
     textDecoration: "none",
-    color: isActive ? "blue" : "black",
+    color: isActive ? "cyan" : "white",
   };
 };
 
@@ -24,10 +24,10 @@ function Header({ user }) {
           style={{
             fontWeight: "bold",
             textDecoration: "none",
-            color: "blue",
+            color: "white",
           }}
         >
-          StudentHustle
+          Student<span style={{ color: "rgb(81, 255, 0)" }}>Hustle</span>
         </NavLink>
       </div>
       <div className="hdright">

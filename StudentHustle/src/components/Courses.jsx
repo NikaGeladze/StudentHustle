@@ -2,28 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../courses.css";
 
-const initialCourses = [
-  {
-    title: "Introduction to Programming",
-    description:
-      "I will teach you the basics of programming and how to build your first application from scratch.",
-    author: "John Doe",
-    price: "$49.99",
-  },
-  {
-    title: "Advanced Web Development",
-    description: "Learn advanced web development techniques.",
-    author: "Jane Smith",
-    price: "$79.99",
-  },
-  {
-    title: "Mastering React.js",
-    description: "Become a React.js expert.",
-    author: "Alice Johnson",
-    price: "$99.99",
-  },
-];
-
 const Courses = ({ user }) => {
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,6 +44,7 @@ const Courses = ({ user }) => {
         ...newCourse,
         price: `$${newCourse.price}`,
         author: `${user.name} ${user.surname}`,
+        email: user.email, // Include the user's email
       },
     ];
     setCourses(updatedCourses);
@@ -145,9 +124,17 @@ const Courses = ({ user }) => {
 
       <div className="coursescontainer">
         {courses.map((course, index) => (
-          <div className="course" key={index}>
+          <div
+            className="course"
+            key={index}
+            onClick={() => navigate(`/courses/${index}`)} // Navigate to CourseDetails page
+          >
             <h2 className="course-title">{course.title}</h2>
-            <p className="course-description">{course.description}</p>
+            <p className="course-description">
+              {course.description.length > 100
+                ? `${course.description.substring(0, 100)}...`
+                : course.description}
+            </p>
             <div className="course-bottom">
               <p>
                 <strong className="course-price">{course.price}</strong>

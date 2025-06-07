@@ -27,46 +27,42 @@ function Home() {
           <div class="post-card">
             <h3>
               <a href="/posts/1" data-discover="true">
-                Getting Started with React
+                Connecting students for smarter hustles.
               </a>
             </h3>
             <p class="post-preview">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-              aliquam amet corrupti cum provident alias?
+              StudentHustle is a dynamic platform designed to empower students
+              by helping them connect, collaborate, and grow together.
             </p>
           </div>
           <div class="post-card">
             <h3>
               <a href="/posts/2" data-discover="true">
-                Understanding React Router
+                Student marketplace for everything you need.
               </a>
             </h3>
             <p class="post-preview">
-              React Router is the standard routing library for React
-              applications. It enables you to create single...
+              StudentHustle creates a marketplace built by students, for
+              students. It offers a wide range of resources and abilites
             </p>
           </div>
           <div class="post-card">
             <h3>
               <a href="/posts/3" data-discover="true">
-                State Management in React
+                More just a platform, it's a movement.
               </a>
             </h3>
             <p class="post-preview">
-              State management is crucial in React applications. You can use
-              useState for local state and context ...
+              At its core, StudentHustle is more than just a platform — it's a
+              movement. A movement toward student-led entrepreneurship,
+              skill-sharing, and resourcefulness.
             </p>
           </div>
         </div>
       </div>
-      <button className="home-button">
-        <NavLink
-          to="/courses"
-          style={{ textDecoration: "none", color: "white" }}
-        >
-          Explore Courses
-        </NavLink>
-      </button>
+      <NavLink to="/courses" style={{ textDecoration: "none", color: "white" }}>
+        <button className="home-button">Explore Courses</button>
+      </NavLink>
     </div>
   );
 }
