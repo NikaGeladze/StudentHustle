@@ -9,8 +9,11 @@ const Courses = ({ user }) => {
     title: "",
     description: "",
     price: "",
+    video: null,
   });
   const [error, setError] = useState("");
+  const [isUploading, setIsUploading] = useState(false); // Track upload status
+  const [uploadProgress, setUploadProgress] = useState(0); // Track upload progress
   const navigate = useNavigate(); // Initialize useNavigate
 
   // Load courses from local storage on component mount
@@ -27,6 +30,39 @@ const Courses = ({ user }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewCourse({ ...newCourse, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploading(true); // Start upload
+    setUploadProgress(0); // Reset progress
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Video = reader.result;
+
+      // Simulate upload progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        setUploadProgress(progress);
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setNewCourse({ ...newCourse, video: base64Video });
+          setIsUploading(false); // Finish upload
+        }
+      }, 200); // Simulate progress every 200ms
+    };
+
+    reader.onerror = () => {
+      setError("Failed to upload video. Please try again.");
+      setIsUploading(false); // Reset upload state
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleAddCourse = () => {
@@ -48,13 +84,13 @@ const Courses = ({ user }) => {
       },
     ];
     setCourses(updatedCourses);
-    setNewCourse({ title: "", description: "", price: "" });
+    setNewCourse({ title: "", description: "", price: "", video: null });
     setIsModalOpen(false);
     setError("");
   };
 
   const handleCancel = () => {
-    setNewCourse({ title: "", description: "", price: "" });
+    setNewCourse({ title: "", description: "", price: "", video: null });
     setIsModalOpen(false);
     setError("");
   };
@@ -114,8 +150,17 @@ const Courses = ({ user }) => {
                 onChange={handleInputChange}
               />
             </label>
+            <label>
+              Intro Video (Optional):
+              <input type="file" accept="video/*" onChange={handleFileChange} />
+            </label>
+            {isUploading && (
+              <p>Uploading video: {uploadProgress}% complete. Please wait...</p>
+            )}
             <div className="modal-buttons">
-              <button onClick={handleAddCourse}>Add</button>
+              <button onClick={handleAddCourse} disabled={isUploading}>
+                Add
+              </button>
               <button onClick={handleCancel}>Cancel</button>
             </div>
           </div>

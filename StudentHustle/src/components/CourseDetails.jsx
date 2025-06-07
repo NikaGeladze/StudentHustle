@@ -37,6 +37,16 @@ const CourseDetails = ({ user }) => {
       <p className="single-course-email">
         <strong>Email:</strong> {course.email}
       </p>
+      {course.video && (
+        <video
+          controls
+          className="course-video"
+          style={{ width: "100%", borderRadius: "10px", marginTop: "20px" }}
+        >
+          <source src={course.video} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
       {user &&
         `${user.name} ${user.surname}` === course.author &&
         user.email === course.email && (
