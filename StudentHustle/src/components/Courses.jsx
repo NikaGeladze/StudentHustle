@@ -1,17 +1,25 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { Search, Plus, Filter, BookOpen, User, DollarSign, Clock } from "lucide-react"
-import "../courses.css"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Search,
+  Plus,
+  Filter,
+  BookOpen,
+  User,
+  DollarSign,
+  Clock,
+} from "lucide-react";
+import "../courses.css";
 
 const Courses = ({ user }) => {
-  const [courses, setCourses] = useState([])
-  const [filteredCourses, setFilteredCourses] = useState([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [sortBy, setSortBy] = useState("newest")
+  const [courses, setCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("newest");
   const [newCourse, setNewCourse] = useState({
     title: "",
     description: "",
@@ -21,10 +29,10 @@ const Courses = ({ user }) => {
     difficulty: "beginner",
     duration: "",
     introVideo: null,
-  })
-  const [error, setError] = useState("")
-  const [showCustomCategory, setShowCustomCategory] = useState(false)
-  const navigate = useNavigate()
+  });
+  const [error, setError] = useState("");
+  const [showCustomCategory, setShowCustomCategory] = useState(false);
+  const navigate = useNavigate();
 
   const categories = [
     { value: "all", label: "All Categories" },
@@ -34,25 +42,25 @@ const Courses = ({ user }) => {
     { value: "marketing", label: "Marketing" },
     { value: "data-science", label: "Data Science" },
     { value: "languages", label: "Languages" },
-  ]
+  ];
 
   const difficulties = [
     { value: "beginner", label: "Beginner" },
     { value: "intermediate", label: "Intermediate" },
     { value: "advanced", label: "Advanced" },
-  ]
+  ];
 
   // Load courses from local storage on component mount
   useEffect(() => {
-    const storedCourses = JSON.parse(localStorage.getItem("courses")) || []
-    setCourses(storedCourses)
-    setFilteredCourses(storedCourses)
-  }, [])
+    const storedCourses = JSON.parse(localStorage.getItem("courses")) || [];
+    setCourses(storedCourses);
+    setFilteredCourses(storedCourses);
+  }, []);
 
   // Save courses to local storage whenever the courses state changes
   useEffect(() => {
-    localStorage.setItem("courses", JSON.stringify(courses))
-  }, [courses])
+    localStorage.setItem("courses", JSON.stringify(courses));
+  }, [courses]);
 
   // Filter and sort courses
   useEffect(() => {
@@ -60,74 +68,81 @@ const Courses = ({ user }) => {
       const matchesSearch =
         course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.author.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = selectedCategory === "all" || course.category === selectedCategory
-      return matchesSearch && matchesCategory
-    })
+        course.author.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || course.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
 
     // Sort courses
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "price-low":
-          return Number.parseFloat(a.price.replace("$", "")) - Number.parseFloat(b.price.replace("$", ""))
+          return (
+            Number.parseFloat(a.price.replace("$", "")) -
+            Number.parseFloat(b.price.replace("$", ""))
+          );
         case "price-high":
-          return Number.parseFloat(b.price.replace("$", "")) - Number.parseFloat(a.price.replace("$", ""))
+          return (
+            Number.parseFloat(b.price.replace("$", "")) -
+            Number.parseFloat(a.price.replace("$", ""))
+          );
         case "title":
-          return a.title.localeCompare(b.title)
+          return a.title.localeCompare(b.title);
         default: // newest
-          return courses.indexOf(b) - courses.indexOf(a)
+          return courses.indexOf(b) - courses.indexOf(a);
       }
-    })
+    });
 
-    setFilteredCourses(filtered)
-  }, [courses, searchTerm, selectedCategory, sortBy])
+    setFilteredCourses(filtered);
+  }, [courses, searchTerm, selectedCategory, sortBy]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setNewCourse({ ...newCourse, [name]: value })
+    const { name, value } = e.target;
+    setNewCourse({ ...newCourse, [name]: value });
     if (name === "category") {
-      setShowCustomCategory(value === "other")
+      setShowCustomCategory(value === "other");
       if (value !== "other") {
-        setNewCourse((prev) => ({ ...prev, customCategory: "" }))
+        setNewCourse((prev) => ({ ...prev, customCategory: "" }));
       }
     }
-  }
+  };
 
   const handleVideoChange = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
       if (file.type.startsWith("video/")) {
         if (file.size <= 50 * 1024 * 1024) {
           // 50MB limit
-          const videoUrl = URL.createObjectURL(file)
-          setNewCourse({ ...newCourse, introVideo: videoUrl })
+          const videoUrl = URL.createObjectURL(file);
+          setNewCourse({ ...newCourse, introVideo: videoUrl });
         } else {
-          setError("Video file must be less than 50MB.")
+          setError("Video file must be less than 50MB.");
         }
       } else {
-        setError("Please select a valid video file.")
+        setError("Please select a valid video file.");
       }
     }
-  }
+  };
 
   const handleAddCourse = () => {
     if (newCourse.title.length <= 1) {
-      setError("Course name must be more than 1 character.")
-      return
+      setError("Course name must be more than 1 character.");
+      return;
     }
     if (Number(newCourse.price) < 0) {
-      setError("Price cannot be negative.")
-      return
+      setError("Price cannot be negative.");
+      return;
     }
     if (!newCourse.duration) {
-      setError("Please specify course duration.")
-      return
+      setError("Please specify course duration.");
+      return;
     }
 
     const categoryValue =
       newCourse.category === "other" && newCourse.customCategory
         ? newCourse.customCategory
-        : newCourse.category
+        : newCourse.category;
 
     const updatedCourses = [
       ...courses,
@@ -140,8 +155,8 @@ const Courses = ({ user }) => {
         createdAt: new Date().toISOString(),
         id: Date.now().toString(),
       },
-    ]
-    setCourses(updatedCourses)
+    ];
+    setCourses(updatedCourses);
     setNewCourse({
       title: "",
       description: "",
@@ -151,10 +166,10 @@ const Courses = ({ user }) => {
       difficulty: "beginner",
       duration: "",
       introVideo: null,
-    })
-    setIsModalOpen(false)
-    setError("")
-  }
+    });
+    setIsModalOpen(false);
+    setError("");
+  };
 
   const handleCancel = () => {
     setNewCourse({
@@ -166,50 +181,50 @@ const Courses = ({ user }) => {
       difficulty: "beginner",
       duration: "",
       introVideo: null,
-    })
-    setIsModalOpen(false)
-    setError("")
-  }
+    });
+    setIsModalOpen(false);
+    setError("");
+  };
 
   const handleAddCourseClick = () => {
     if (!user) {
-      navigate("/signup")
+      navigate("/signup");
     } else {
-      setIsModalOpen(true)
+      setIsModalOpen(true);
     }
-  }
+  };
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
       case "beginner":
-        return "#10b981"
+        return "#10b981";
       case "intermediate":
-        return "#f59e0b"
+        return "#f59e0b";
       case "advanced":
-        return "#ef4444"
+        return "#ef4444";
       default:
-        return "#6b7280"
+        return "#6b7280";
     }
-  }
+  };
 
   const getCategoryIcon = (category) => {
     switch (category) {
       case "programming":
-        return "💻"
+        return "💻";
       case "design":
-        return "🎨"
+        return "🎨";
       case "business":
-        return "💼"
+        return "💼";
       case "marketing":
-        return "📈"
+        return "📈";
       case "data-science":
-        return "📊"
+        return "📊";
       case "languages":
-        return "🌍"
+        return "🌍";
       default:
-        return "📚"
+        return "📚";
     }
-  }
+  };
 
   return (
     <div className="courses-main-container">
@@ -217,7 +232,8 @@ const Courses = ({ user }) => {
         <div className="courses-header-content">
           <h1 className="courses-title">Discover Amazing Courses</h1>
           <p className="courses-subtitle">
-            Learn from industry experts and advance your skills with our comprehensive course library
+            Learn from experienced students and advance your skills with our
+            comprehensive course library
           </p>
         </div>
 
@@ -256,7 +272,11 @@ const Courses = ({ user }) => {
           </div>
 
           <div className="filter-group">
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="filter-select">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="filter-select"
+            >
               <option value="newest">Newest First</option>
               <option value="title">Title A-Z</option>
               <option value="price-low">Price: Low to High</option>
@@ -268,7 +288,8 @@ const Courses = ({ user }) => {
 
       <div className="courses-stats">
         <span className="courses-count">
-          {filteredCourses.length} course{filteredCourses.length !== 1 ? "s" : ""} found
+          {filteredCourses.length} course
+          {filteredCourses.length !== 1 ? "s" : ""} found
         </span>
       </div>
 
@@ -326,7 +347,11 @@ const Courses = ({ user }) => {
 
                 <div className="form-group">
                   <label>Difficulty *</label>
-                  <select name="difficulty" value={newCourse.difficulty} onChange={handleInputChange}>
+                  <select
+                    name="difficulty"
+                    value={newCourse.difficulty}
+                    onChange={handleInputChange}
+                  >
                     {difficulties.map((difficulty) => (
                       <option key={difficulty.value} value={difficulty.value}>
                         {difficulty.label}
@@ -349,7 +374,13 @@ const Courses = ({ user }) => {
                     step="0.01"
                   />
                   {String(newCourse.price).trim() === "0" && (
-                    <div style={{ color: "#10b981", marginTop: "0.5rem", fontWeight: 500 }}>
+                    <div
+                      style={{
+                        color: "#10b981",
+                        marginTop: "0.5rem",
+                        fontWeight: 500,
+                      }}
+                    >
                       This course is <strong>Free</strong>
                     </div>
                   )}
@@ -380,14 +411,25 @@ const Courses = ({ user }) => {
 
               <div className="form-group">
                 <label>Intro Video * (Max 50MB)</label>
-                <input type="file" accept="video/*" onChange={handleVideoChange} className="video-input" />
+                <input
+                  type="file"
+                  accept="video/*"
+                  onChange={handleVideoChange}
+                  className="video-input"
+                />
                 {newCourse.introVideo && (
                   <div className="video-preview">
-                    <video src={newCourse.introVideo} controls className="preview-video" />
+                    <video
+                      src={newCourse.introVideo}
+                      controls
+                      className="preview-video"
+                    />
                     <button
                       type="button"
                       className="remove-video-btn"
-                      onClick={() => setNewCourse({ ...newCourse, introVideo: null })}
+                      onClick={() =>
+                        setNewCourse({ ...newCourse, introVideo: null })
+                      }
                     >
                       Remove Video
                     </button>
@@ -413,7 +455,10 @@ const Courses = ({ user }) => {
           <div className="no-courses">
             <BookOpen size={48} />
             <h3>No courses found</h3>
-            <p>Try adjusting your search or filters, or be the first to create a course!</p>
+            <p>
+              Try adjusting your search or filters, or be the first to create a
+              course!
+            </p>
           </div>
         ) : (
           filteredCourses.map((course) => (
@@ -424,12 +469,20 @@ const Courses = ({ user }) => {
             >
               <div className="course-card-header">
                 <div className="course-category">
-                  <span className="category-icon">{getCategoryIcon(course.category)}</span>
+                  <span className="category-icon">
+                    {getCategoryIcon(course.category)}
+                  </span>
                   <span className="category-text">
-                    {categories.find((cat) => cat.value === course.category)?.label || "General"}
+                    {categories.find((cat) => cat.value === course.category)
+                      ?.label || "General"}
                   </span>
                 </div>
-                <div className="difficulty-badge" style={{ backgroundColor: getDifficultyColor(course.difficulty) }}>
+                <div
+                  className="difficulty-badge"
+                  style={{
+                    backgroundColor: getDifficultyColor(course.difficulty),
+                  }}
+                >
                   {course.difficulty || "Beginner"}
                 </div>
               </div>
@@ -437,7 +490,9 @@ const Courses = ({ user }) => {
               <div className="course-card-content">
                 <h3 className="course-card-title">{course.title}</h3>
                 <p className="course-card-description">
-                  {course.description.length > 120 ? `${course.description.substring(0, 120)}...` : course.description}
+                  {course.description.length > 120
+                    ? `${course.description.substring(0, 120)}...`
+                    : course.description}
                 </p>
               </div>
 
@@ -458,7 +513,9 @@ const Courses = ({ user }) => {
                 <div className="course-price">
                   <DollarSign size={18} />
                   <span className="price-amount">
-                    {Number(course.price.replace("$", "")) === 0 ? "Free" : course.price}
+                    {Number(course.price.replace("$", "")) === 0
+                      ? "Free"
+                      : course.price}
                   </span>
                 </div>
                 <button className="course-view-btn">View Course</button>
@@ -468,7 +525,7 @@ const Courses = ({ user }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Courses
+export default Courses;

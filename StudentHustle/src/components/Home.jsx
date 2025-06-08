@@ -1,8 +1,15 @@
-"use client"
+"use client";
 
-import { NavLink } from "react-router-dom"
-import { BookOpen, Users, TrendingUp, ArrowRight, Star, CheckCircle } from "lucide-react"
-import "../mainbody.css"
+import { NavLink } from "react-router-dom";
+import {
+  BookOpen,
+  Users,
+  TrendingUp,
+  ArrowRight,
+  Star,
+  CheckCircle,
+} from "lucide-react";
+import "../mainbody.css";
 
 function Home() {
   const features = [
@@ -27,7 +34,7 @@ function Home() {
       icon: TrendingUp,
       color: "#f59e0b",
     },
-  ]
+  ];
 
   const testimonials = [
     {
@@ -54,7 +61,7 @@ function Home() {
       rating: 5,
       avatar: "ER",
     },
-  ]
+  ];
 
   return (
     <div className="home-container">
@@ -66,8 +73,8 @@ function Home() {
               Welcome to <span className="brand-highlight">StudentHustle</span>
             </h1>
             <p className="hero-subtitle">
-              Deepen your knowledge and support fellow students by discovering amazing courses taught by passionate
-              educators
+              Deepen your knowledge and support fellow students by discovering
+              amazing courses taught by passionate educators
             </p>
             <div className="hero-actions">
               <NavLink to="/courses" className="cta-button primary">
@@ -95,15 +102,27 @@ function Home() {
       {/* Features Section */}
       <section className="features-section">
         <div className="section-header">
-          <h2 className="section-title">Why Choose StudentHustle?</h2>
+          <h2
+            className="section-title"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            Why Choose StudentHustle?
+          </h2>
           <p className="section-subtitle">
-            Discover what makes our platform the perfect place for student learning and growth
+            Discover what makes our platform the perfect place for student
+            learning and growth
           </p>
         </div>
         <div className="features-grid">
           {features.map((feature, index) => (
             <div key={index} className="feature-card">
-              <div className="feature-icon" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
+              <div
+                className="feature-icon"
+                style={{
+                  backgroundColor: `${feature.color}15`,
+                  color: feature.color,
+                }}
+              >
                 <feature.icon size={28} />
               </div>
               <div className="feature-content">
@@ -118,8 +137,16 @@ function Home() {
       {/* Testimonials Section */}
       <section className="testimonials-section">
         <div className="section-header">
-          <h2 className="section-title">What Our Students Say</h2>
-          <p className="section-subtitle">Real stories from real students who've transformed their learning journey</p>
+          <h2
+            className="section-title"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            What Our Students Say
+          </h2>
+          <p className="section-subtitle">
+            Real stories from real students who've transformed their learning
+            journey
+          </p>
         </div>
         <div className="testimonials-grid">
           {testimonials.map((testimonial, index) => (
@@ -147,7 +174,8 @@ function Home() {
         <div className="cta-content">
           <h2 className="cta-title">Ready to Start Your Learning Journey?</h2>
           <p className="cta-subtitle">
-            Join thousands of students who are already advancing their skills and building their future
+            Join thousands of students who are already advancing their skills
+            and building their future
           </p>
           <div className="cta-features">
             <div className="cta-feature">
@@ -171,7 +199,7 @@ function Home() {
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

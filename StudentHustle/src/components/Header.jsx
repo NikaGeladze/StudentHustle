@@ -48,7 +48,7 @@ function Header({ user }) {
               alt="Profile"
               className="profile-photo"
               width={30}
-              style={{ cursor: "pointer", marginTop: "2px" }}
+              style={{ cursor: "pointer", marginTop: "7px" }}
             />
           </div>
         ) : (
